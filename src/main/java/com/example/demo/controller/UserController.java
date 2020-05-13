@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.User;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.UserService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,12 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
+    @RequiresPermissions("user:get")
     @GetMapping("/getUserById")
     public User getUserById(Integer userId) {
-        return userMapper.getUserById(userId);
+        return userService.getUserById(userId);
     }
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
 }

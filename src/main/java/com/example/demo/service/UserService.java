@@ -1,17 +1,17 @@
-package com.example.demo.mapper;
+package com.example.demo.service;
 
 import com.example.demo.domain.User;
 
 /**
- * UserMapper
+ * springboot-demo
  *
  * @author chenchen
  * @date 2020/05/13
  */
-public interface UserMapper {
+public interface UserService {
 
     /**
-     * 根据用户id查询用户
+     * 根据id查询
      *
      * @param id id
      * @return User

@@ -2,8 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 此处与接口类地址对应 -->
 <mapper namespace="com.example.demo.mapper.UserMapper">
-    <!-- 此处与接口方法名对应 指定参数类型与返回结果类型-->
-    <select id="getUserById" parameterType="java.lang.Integer" resultType="com.example.demo.domain.User">
-        select * from user where id = #{userId}
+
+    <resultMap id="UserResult" type="User">
+        <id property="id" column="id"></id>
+        <result property="userName" column="username"></result>
+        <result property="passWord" column="password"></result>
+    </resultMap>
+
+    <select id="getUserById" parameterType="Integer" resultMap="UserResult">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="getUserByUserName" parameterType="String" resultMap="UserResult">
+        select * from user where username = #{userName}
     </select>
 </mapper>

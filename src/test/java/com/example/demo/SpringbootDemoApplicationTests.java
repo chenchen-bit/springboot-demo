@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.domain.User;
-import com.example.demo.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +26,7 @@ class SpringbootDemoApplicationTests {
     /**
      * 测试数据库连接
      *
-     * @throws SQLException error
+     * @throws SQLException SQLException
      */
     @Test
     void testMySQL() throws SQLException {
@@ -45,16 +43,7 @@ class SpringbootDemoApplicationTests {
         }
     }
 
-    @Test
-    void testUserMapper() {
-        User user = userMapper.getUserById(1);
-        System.out.println("User-> " + user.getId() + " " + user.getUserName() + " " + user.getPassWord());
-    }
-
     @Autowired
     private DataSource dataSource;
-
-    @Autowired
-    private UserMapper userMapper;
 
 }

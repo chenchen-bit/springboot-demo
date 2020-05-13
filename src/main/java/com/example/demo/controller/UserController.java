@@ -19,8 +19,9 @@ public class UserController {
 
     /**
      * getUserById
+     *
      * @param id id
-     * @return
+     * @return User
      */
     @RequiresPermissions("user:get")
     @GetMapping("/getUserById")

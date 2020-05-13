@@ -17,10 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
+    /**
+     * getUserById
+     * @param id id
+     * @return
+     */
     @RequiresPermissions("user:get")
     @GetMapping("/getUserById")
-    public User getUserById(Integer userId) {
-        return userService.getUserById(userId);
+    public User getUserById(Integer id) {
+        return userService.getUserById(id);
     }
 
     @Autowired

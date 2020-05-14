@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.User;
+import com.github.pagehelper.Page;
 
 /**
  * springboot-demo
@@ -9,6 +10,13 @@ import com.example.demo.domain.User;
  * @date 2020/05/13
  */
 public interface UserService {
+
+    /**
+     * 查询用户列表
+     *
+     * @return Page<User>
+     */
+    Page<User> selectUserList();
 
     /**
      * 根据id查询
@@ -25,5 +33,13 @@ public interface UserService {
      * @return User
      */
     User getUserByUserName(String userName);
+
+    /**
+     * 新增用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    int insertUser(User user);
 
 }

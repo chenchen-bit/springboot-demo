@@ -9,6 +9,10 @@
         <result property="passWord" column="password"></result>
     </resultMap>
 
+    <select id="selectUserList" resultMap="UserResult">
+        select * from user
+    </select>
+
     <select id="getUserById" parameterType="Integer" resultMap="UserResult">
         select * from user where id = #{id}
     </select>
@@ -16,4 +20,17 @@
     <select id="getUserByUserName" parameterType="String" resultMap="UserResult">
         select * from user where username = #{userName}
     </select>
+
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(
+        <if test="id != null and id != 0">id,</if>
+        <if test="userName != null and userName != ''">username,</if>
+        <if test="passWord != null and passWord != ''">password</if>
+        )values(
+        <if test="id != null and id != 0">#{id},</if>
+        <if test="userName != null and userName != ''">#{userName},</if>
+        <if test="passWord != null and passWord != ''">#{passWord}</if>
+        )
+    </insert>
+
 </mapper>

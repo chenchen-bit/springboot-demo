@@ -40,6 +40,7 @@ public class ShiroConfig {
           Shiro连接约束配置，即过滤链的定义：
           anon：都可以访问
           authc：认证后可以访问
+          user：配置记住我或认证通过可以访问
          */
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //不需要拦截的访问

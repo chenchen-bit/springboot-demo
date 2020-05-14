@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.domain.User;
+import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,7 +46,24 @@ class SpringbootDemoApplicationTests {
         }
     }
 
+    /**
+     * 测试添加用户
+     */
+    @Test
+    void save() {
+        for (int i = 1; i < 100; i++) {
+            User user = new User();
+            user.setUserName("user" + i);
+            user.setPassWord("123456");
+            int rows = userService.insertUser(user);
+            System.out.println("save user -> " + rows);
+        }
+    }
+
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private UserService userService;
 
 }

@@ -1,11 +1,17 @@
 package com.example.demo.domain;
 
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 用户
  *
  * @author chenchen
  * @date 2020/05/13
  */
+@Getter
+@Setter
 public class User {
 
     /**
@@ -23,27 +29,4 @@ public class User {
      */
     private String passWord;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassWord() {
-        return passWord;
-    }
-
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
 }

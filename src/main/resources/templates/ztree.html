@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>zTree</title>
+    <link rel="stylesheet" href="/ztree/css/metroStyle/metroStyle.css">
+</head>
+<body>
+
+<div>
+    <p>metroStyle</p>
+    <ul id="tree" class="ztree"></ul>
+</div>
+
+<script type="text/javascript" src="/ztree/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="/ztree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/ztree/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript">
+    var zTreeObj;
+    var setting = {
+        check: {
+            enable: true
+        }
+    };
+    var zNodes = [
+        {
+            name: "test1",
+            open: true,
+            children: [
+                {name: "test1_1"},
+                {name: "test1_2"}
+            ]
+        },
+        {
+            name: "test2",
+            open: true,
+            children: [
+                {name: "test2_1"},
+                {name: "test2_2"}
+            ]
+        }
+    ];
+
+    $(function () {
+        zTreeObj = $.fn.zTree.init($("#tree"), setting, zNodes);
+    })
+</script>
+</body>
+</html>

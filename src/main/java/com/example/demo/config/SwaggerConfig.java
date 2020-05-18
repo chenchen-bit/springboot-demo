@@ -33,7 +33,7 @@ public class SwaggerConfig {
                 .groupName("2.X版本")
                 .select()
                 //这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.example.demo.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.demo.api.controller"))
                 .paths(PathSelectors.any())
                 .build();
         return docket;
@@ -43,8 +43,8 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("swagger-bootstrap-ui-demo RESTful APIs")
                 .description("# swagger-bootstrap-ui-demo RESTful APIs")
-                .termsOfServiceUrl("http://www.xx.com/")
-                .contact("xx@qq.com")
+                .termsOfServiceUrl("http://www.google.com/")
+                .contact("chenchen-x@qq.com")
                 .version("1.0")
                 .build();
     }

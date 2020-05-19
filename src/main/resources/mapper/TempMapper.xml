@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper接口完全限定名">
+    <!-- XML映射文件，标签元素说明 -->
+
+    <!--
+        select
+        id：在命名空间中唯一的标识符，可以被用来引用这条语句。
+        parameterType：将会传入这条语句的参数的类全限定名或别名。可选的，因为 MyBatis 可以通过类型处理器（TypeHandler）推断出具体传入语句的参数，默认值为未设置（unset）。
+        resultType：期望从这条语句中返回结果的类全限定名或别名。注意，如果返回的是集合，那应该设置为集合包含的类型，而不是集合本身的类型。
+        resultMap：对外部 resultMap 的命名引用。 resultType 和 resultMap 之间只能同时使用一个。
+    -->
+    <select id="select" parameterType="int" resultType="arraylist" resultMap="User">
+        select * from table_name
+    </select>
+
+    <!--
+        insert
+        id：同上。
+        parameterType：同上。
+        useGeneratedKeys：（仅适用于 insert 和 update）这会令 MyBatis 使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键（比如：像 MySQL 和 SQL Server 这样的关系型数据库管理系统的自动递增字段），默认值：false。
+        keyProperty：（仅适用于 insert 和 update）指定能够唯一识别对象的属性，MyBatis 会使用 getGeneratedKeys 的返回值或 insert 语句的 selectKey 子元素设置它的值，默认值：未设置（unset）。如果生成列不止一个，可以用逗号分隔多个属性名称
+        **如果你的数据库支持自动生成主键的字段（比如 MySQL 和 SQL Server），那么你可以设置 useGeneratedKeys=”true”，然后再把 keyProperty 设置为目标属性就 OK 了
+    -->
+    <insert id="insert" parameterType="int" useGeneratedKeys="true" keyProperty="id">
+        insert into user(username) values ("ddd")
+    </insert>
+
+    <!--
+        update
+        id：同上。
+        parameterType：同上。
+    -->
+    <update id="update" parameterType="int">
+        update user set username = #{username} where id = #{id}
+    </update>
+
+    <!--
+        delete
+        id：同上。
+        parameterType：同上。
+    -->
+    <delete id="delete" parameterType="int">
+        delete from user where id = #{id}
+    </delete>
+
+    <!--
+        sql
+        这个元素可以用来定义可重用的 SQL 代码片段，以便在其它语句中使用。 参数可以静态地（在加载的时候）确定下来，并且可以在不同的 include 元素中定义不同的参数值
+        id：同上。
+    -->
+    <sql id="sql">
+        select * from user
+    </sql>
+
+    <!--
+        resultMap
+        结果映射
+        id：同上。
+        <id>：一个 ID 结果；标记出作为 ID 的结果可以帮助提高整体性能
+        <result>：注入到字段或 JavaBean 属性的普通结果
+    -->
+    <resultMap id="resultMap" type="arraylist">
+        <!--
+            property：映射到列结果的字段或属性
+            column：数据库中的列名，或者是列的别名
+            javaType：一个 Java 类的全限定名，或一个类型别名。如果你映射到一个 JavaBean，MyBatis 通常可以推断类型。然而，如果你映射到的是 HashMap，那么你应该明确地指定 javaType 来保证行为与期望的相一致。
+        -->
+        <id property="id" column="id"></id>
+        <result property="name" column="name" javaType="int"></result>
+    </resultMap>
+</mapper>

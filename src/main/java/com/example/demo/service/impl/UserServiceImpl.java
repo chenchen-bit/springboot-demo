@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * springboot-demo
  *
@@ -35,6 +37,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User getUserById(Integer id) {
+        List<User> users = userMapper.selectUserAndPost();
+
         return userMapper.getUserById(id);
     }
 

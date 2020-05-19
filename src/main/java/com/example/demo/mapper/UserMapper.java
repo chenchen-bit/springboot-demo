@@ -2,6 +2,11 @@ package com.example.demo.mapper;
 
 import com.example.demo.domain.User;
 import com.github.pagehelper.Page;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * UserMapper
@@ -41,5 +46,29 @@ public interface UserMapper {
      * @return 结果
      */
     int insertUser(User user);
+
+    /**
+     * 练习一些SQL
+     *
+     * @param id id
+     * @return 结果
+     */
+    Map selectLearn(Integer id);
+
+    /**
+     * 注解查询
+     *
+     * @param id id
+     * @return 结果
+     */
+    @Select("select * from user where id = #{id}")
+    User selectUser(@Param("id") Integer id);
+
+    /**
+     * 查询用户和文章
+     *
+     * @return 结果
+     */
+    List<User> selectUserAndPost();
 
 }

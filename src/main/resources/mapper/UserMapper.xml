@@ -7,18 +7,30 @@
         <id property="id" column="id"></id>
         <result property="userName" column="username"></result>
         <result property="passWord" column="password"></result>
+        <collection property="posts" ofType="Post">
+            <id property="id" column="post_id"></id>
+            <result property="userId" column="p_user_id"></result>
+            <result property="title" column="title"></result>
+            <result property="content" column="content"></result>
+        </collection>
     </resultMap>
 
-    <select id="selectUserList" resultMap="UserResult">
+    <sql id="SelectSql">
         select * from user
+    </sql>
+
+    <select id="selectUserList" resultMap="UserResult">
+        <include refid="SelectSql"></include>
     </select>
 
     <select id="getUserById" parameterType="Integer" resultMap="UserResult">
-        select * from user where id = #{id}
+        <include refid="SelectSql"></include>
+        where id = #{id}
     </select>
 
     <select id="getUserByUserName" parameterType="String" resultMap="UserResult">
-        select * from user where username = #{userName}
+        <include refid="SelectSql"></include>
+        where username = #{userName}
     </select>
 
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
@@ -32,5 +44,24 @@
         <if test="passWord != null and passWord != ''">#{passWord}</if>
         )
     </insert>
+
+    <select id="selectLearn" parameterType="Integer" resultType="hashmap">
+        <include refid="SelectSql"></include>
+        where id = #{id}
+    </select>
+
+    <select id="selectUserAndPost" resultMap="UserResult">
+        SELECT
+            u.id AS id,
+            u.username AS username,
+            u.password AS password,
+            p.id AS post_id,
+            p.user_id AS p_user_id,
+            p.title AS title,
+            p.content AS content
+        FROM
+            user u
+            LEFT JOIN post p ON p.user_id = u.id
+    </select>
 
 </mapper>

@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * 用户
  *
@@ -47,5 +49,10 @@ public class User {
      */
     @ApiModelProperty(value = "密码")
     private String passWord;
+
+    /**
+     * 文章列表
+     */
+    private List<Post> posts;
 
 }

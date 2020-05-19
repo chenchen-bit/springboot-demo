@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper接口完全限定名">
+
     <!-- XML映射文件，标签元素说明 -->
 
     <!--
@@ -59,6 +60,7 @@
         id：同上。
         <id>：一个 ID 结果；标记出作为 ID 的结果可以帮助提高整体性能
         <result>：注入到字段或 JavaBean 属性的普通结果
+        <association>：关联元素处理“有一个”类型的关系
     -->
     <resultMap id="resultMap" type="arraylist">
         <!--
@@ -68,5 +70,15 @@
         -->
         <id property="id" column="id"></id>
         <result property="name" column="name" javaType="int"></result>
+        <!--
+            property：同上。
+            column：同上。
+            javaType：同上
+        -->
+        <association property="info" column="info" javaType="Info">
+            <id property="id" column="id"></id>
+            <result property="name" column="name"></result>
+        </association>
     </resultMap>
+
 </mapper>

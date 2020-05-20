@@ -3,33 +3,53 @@
 <!-- 此处与接口类地址对应 -->
 <mapper namespace="com.example.demo.mapper.UserMapper">
 
-    <resultMap id="UserResult" type="User">
-        <id property="id" column="id"></id>
-        <result property="userName" column="username"></result>
-        <result property="passWord" column="password"></result>
+    <resultMap id="userResult" type="User">
+        <id property="id" column="id"/>
+        <result property="userName" column="username"/>
+        <result property="passWord" column="password"/>
+        <!--一种方式-->
+        <!--<association property="blog" column="id" javaType="Blog" select="selectBlog"/>-->
+        <!--二种方式-->
+        <!--<association property="blog" column="blog_id" javaType="Blog" resultMap="blogResult"/>-->
+        <!--三种方式-->
+        <association property="blog" javaType="Blog">
+            <id property="id" column="blog_id"/>
+            <result property="userId" column="b_user_id"/>
+            <result property="blogName" column="blog_name"/>
+        </association>
+        <!--一种方式-->
+        <!--读作： “posts 是一个存储 Post 的 ArrayList 集合”-->
+        <!--<collection property="posts" column="id" javaType="arraylist" ofType="Post" select="selectPost"/>-->
+        <!--二种方式-->
         <collection property="posts" ofType="Post">
-            <id property="id" column="post_id"></id>
-            <result property="userId" column="p_user_id"></result>
-            <result property="title" column="title"></result>
-            <result property="content" column="content"></result>
+            <id property="id" column="post_id"/>
+            <result property="userId" column="p_user_id"/>
+            <result property="title" column="title"/>
+            <result property="content" column="content"/>
         </collection>
     </resultMap>
 
-    <sql id="SelectSql">
+    <resultMap id="blogResult" type="Blog">
+        <id property="id" column="blog_id"/>
+        <result property="userId" column="b_user_id"/>
+        <result property="blogName" column="blog_name"/>
+    </resultMap>
+
+    <sql id="selectSql">
         select * from user
     </sql>
 
-    <select id="selectUserList" resultMap="UserResult">
-        <include refid="SelectSql"></include>
+    <select id="selectUserList" resultMap="userResult">
+        <include refid="selectSql"/>
     </select>
 
-    <select id="getUserById" parameterType="Integer" resultMap="UserResult">
-        <include refid="SelectSql"></include>
+    <select id="getUserById" parameterType="Integer" resultMap="userResult">
+        <include refid="selectSql"/>
         where id = #{id}
     </select>
 
-    <select id="getUserByUserName" parameterType="String" resultMap="UserResult">
-        <include refid="SelectSql"></include>
+    <select id="getUserByUserName" parameterType="String" resultMap="userResult">
+        <include refid="selectSql"/>
         where username = #{userName}
     </select>
 
@@ -46,11 +66,11 @@
     </insert>
 
     <select id="selectLearn" parameterType="Integer" resultType="hashmap">
-        <include refid="SelectSql"></include>
+        <include refid="selectSql"/>
         where id = #{id}
     </select>
 
-    <select id="selectUserAndPost" resultMap="UserResult">
+    <select id="selectUserAndPost" resultMap="userResult">
         SELECT
             u.id AS id,
             u.username AS username,
@@ -58,10 +78,37 @@
             p.id AS post_id,
             p.user_id AS p_user_id,
             p.title AS title,
-            p.content AS content
+            p.content AS content,
+            b.id as blog_id,
+            b.user_id as b_user_id,
+            b.blog_name
         FROM
             user u
+            left join blog b on b.user_id = u.id
             LEFT JOIN post p ON p.user_id = u.id
+    </select>
+
+    <select id="selectBlog" resultType="Blog">
+        select
+            b.id as id,
+            b.user_id as userId,
+            b.blog_name as blogName
+        from
+            blog b
+        where
+            b.user_id = #{id}
+    </select>
+
+    <select id="selectPost" resultType="Post">
+        SELECT
+            p.id,
+            p.user_id,
+            p.title,
+            p.content
+        FROM
+            post p
+        WHERE
+            p.user_id = #{id}
     </select>
 
 </mapper>

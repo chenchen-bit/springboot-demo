@@ -51,6 +51,11 @@ public class User {
     private String passWord;
 
     /**
+     * 博客
+     */
+    private Blog blog;
+
+    /**
      * 文章列表
      */
     private List<Post> posts;

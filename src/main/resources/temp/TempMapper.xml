@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper接口完全限定名">
+
+    <!-- XML映射文件，标签元素说明 -->
+
+    <!--
+        select
+        id：在命名空间中唯一的标识符，可以被用来引用这条语句。
+        parameterType：将会传入这条语句的参数的类全限定名或别名。可选的，因为 MyBatis 可以通过类型处理器（TypeHandler）推断出具体传入语句的参数，默认值为未设置（unset）。
+        resultType：期望从这条语句中返回结果的类全限定名或别名。注意，如果返回的是集合，那应该设置为集合包含的类型，而不是集合本身的类型。
+        resultMap：对外部 resultMap 的命名引用。 resultType 和 resultMap 之间只能同时使用一个。
+        <where>：
+        where 元素只会在子元素返回任何内容的情况下才插入 “WHERE” 子句。而且，若子句的开头为 “AND” 或 “OR”，where 元素也会将它们去除
+        <trim>：
+        自定义 trim 元素：
+        prefix：设置前缀 插入 prefix 属性中指定的内容。
+        suffix：设置后缀 插入 prefix 属性中指定的内容。
+        prefixOverrides：属性会忽略以 通过管道符分隔的文本序列 开头的（注意此例中的空格是必要的）。
+        suffixOverrides：属性会忽略以 通过管道符分隔的文本序列 结尾的
+    -->
+    <select id="select" parameterType="int" resultType="arraylist" resultMap="User">
+        select * from table_name
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <choose>
+                <when test="id != null">
+                    and id = #{id}
+                </when>
+                <when test="name != null">
+                    and name = #{name}
+                </when>
+                <otherwise>
+                    and status = 0
+                </otherwise>
+            </choose>
+        </where>
+        <trim prefix="WHERE" suffix="," prefixOverrides="AND | OR " suffixOverrides=",">
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <choose>
+                <when test="id != null">
+                    and id = #{id}
+                </when>
+                <when test="name != null">
+                    and name = #{name}
+                </when>
+                <otherwise>
+                    and status = 0
+                </otherwise>
+            </choose>
+        </trim>
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--
+        insert
+        id：同上。
+        parameterType：同上。
+        useGeneratedKeys：（仅适用于 insert 和 update）这会令 MyBatis 使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键（比如：像 MySQL 和 SQL Server 这样的关系型数据库管理系统的自动递增字段），默认值：false。
+        keyProperty：（仅适用于 insert 和 update）指定能够唯一识别对象的属性，MyBatis 会使用 getGeneratedKeys 的返回值或 insert 语句的 selectKey 子元素设置它的值，默认值：未设置（unset）。如果生成列不止一个，可以用逗号分隔多个属性名称
+        **如果你的数据库支持自动生成主键的字段（比如 MySQL 和 SQL Server），那么你可以设置 useGeneratedKeys=”true”，然后再把 keyProperty 设置为目标属性就 OK 了
+    -->
+    <insert id="insert" parameterType="int" useGeneratedKeys="true" keyProperty="id">
+        insert into user(username) values ("ddd")
+    </insert>
+
+    <!--
+        update
+        id：同上。
+        parameterType：同上。
+        <set>：
+        set 元素会动态地在行首插入 SET 关键字，并会删掉额外的逗号（这些逗号是在使用条件语句给列赋值时引入的）
+    -->
+    <update id="update" parameterType="int">
+        update user set username = #{username} where id = #{id}
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="sex != null">sex = #{sex}</if>
+        </set>
+    </update>
+
+    <!--
+        delete
+        id：同上。
+        parameterType：同上。
+    -->
+    <delete id="delete" parameterType="int">
+        delete from user where id = #{id}
+    </delete>
+
+    <!--
+        sql
+        这个元素可以用来定义可重用的 SQL 代码片段，以便在其它语句中使用。 参数可以静态地（在加载的时候）确定下来，并且可以在不同的 include 元素中定义不同的参数值
+        id：同上。
+    -->
+    <sql id="sql">
+        select * from user
+    </sql>
+
+    <!--
+        resultMap
+        结果映射
+        id：同上。
+        <id>：一个 ID 结果；标记出作为 ID 的结果可以帮助提高整体性能
+        <result>：注入到字段或 JavaBean 属性的普通结果
+        <association>：关联元素，处理“有一个”类型的关联
+        <collection>：集合元素，处理“有很多个”类型的关联
+    -->
+    <resultMap id="resultMap" type="arraylist">
+        <!--
+            property：映射到列结果的字段或属性
+            column：数据库中的列名，或者是列的别名
+        -->
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <!--
+            property：同上。
+            column：同上。
+            javaType：一个 Java 类的全限定名，或一个类型别名。如果你映射到一个 JavaBean，MyBatis 通常可以推断类型。然而，如果你映射到的是 HashMap，那么你应该明确地指定 javaType 来保证行为与期望的相一致。
+            resultMap：同上。resultType 和 select 之间使用一个
+            select：用于加载复杂类型属性的映射语句的 ID，它会从 column 属性指定的列中检索数据，作为参数传递给目标 select 语句
+            columnPrefix：指定 columnPrefix 列名前缀。当连接多个表时，你可能会不得不使用列别名来避免在 ResultSet 中产生重复的列名
+        -->
+        <association property="info" column="id" javaType="Info" resultMap="resultMap" select="select"
+                     columnPrefix="other_">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+        <!--
+            property：同上。
+            column：同上。
+            ofType：它用来将 JavaBean（或字段）属性的类型和集合存储的类型区分开来
+            javaType：在一般情况下，MyBatis 可以推断 javaType 属性，因此并不需要填写
+            select：同上
+        -->
+        <collection property="infos" column="id" ofType="Info" javaType="ArrayList" select="select">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </collection>
+    </resultMap>
+
+    <!--
+        启用缓存：
+        映射语句文件中的所有 select 语句的结果将会被缓存。
+        映射语句文件中的所有 insert、update 和 delete 语句会刷新缓存。
+        缓存会使用最近最少使用算法（LRU, Least Recently Used）算法来清除不需要的缓存。
+        缓存不会定时进行刷新（也就是说，没有刷新间隔）。
+        缓存会保存列表或对象（无论查询方法返回哪种）的 1024 个引用。
+        缓存会被视为读/写缓存，这意味着获取到的对象并不是共享的，可以安全地被调用者修改，而不干扰其他调用者或线程所做的潜在修改。
+    -->
+    <cache/>
+
+</mapper>

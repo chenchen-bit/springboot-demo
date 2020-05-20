@@ -11,11 +11,48 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 14/05/2020 16:45:20
+ Date: 20/05/2020 16:54:35
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for blog
+-- ----------------------------
+DROP TABLE IF EXISTS `blog`;
+CREATE TABLE `blog`  (
+  `id` int(11) NOT NULL COMMENT 'id',
+  `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
+  `blog_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT ' 博客名称',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户博客' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog
+-- ----------------------------
+INSERT INTO `blog` VALUES (1, 22, '风清扬的博客');
+INSERT INTO `blog` VALUES (2, 23, '喀什的博客');
+
+-- ----------------------------
+-- Table structure for post
+-- ----------------------------
+DROP TABLE IF EXISTS `post`;
+CREATE TABLE `post`  (
+  `id` int(11) NOT NULL COMMENT 'id',
+  `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标题',
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT ' 内容',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of post
+-- ----------------------------
+INSERT INTO `post` VALUES (1, 1, 'fl赔付金额破', '发生的故事广泛大锅饭大概');
+INSERT INTO `post` VALUES (2, 1, '古典风格', '高热量好久哦恩反馈进度了');
+INSERT INTO `post` VALUES (3, 23, 'fl赔付金额破', '发生的故事广泛大锅饭大概');
+INSERT INTO `post` VALUES (4, 23, '古典风格', '高热量好久哦恩反馈进度了');
 
 -- ----------------------------
 -- Table structure for user
@@ -26,7 +63,7 @@ CREATE TABLE `user`  (
   `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -131,5 +168,8 @@ INSERT INTO `user` VALUES (97, 'user96', '123456');
 INSERT INTO `user` VALUES (98, 'user97', '123456');
 INSERT INTO `user` VALUES (99, 'user98', '123456');
 INSERT INTO `user` VALUES (100, 'user99', '123456');
+INSERT INTO `user` VALUES (101, 'bili1', '123456');
+INSERT INTO `user` VALUES (102, 'bili2', '123456');
+INSERT INTO `user` VALUES (103, 'bili3', '123456');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -8,6 +8,8 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
@@ -21,6 +23,8 @@ import java.util.Set;
  */
 public class UserRealm extends AuthorizingRealm {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserRealm.class);
+
     /**
      * 授权
      *
@@ -29,7 +33,7 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        System.out.println("Shiro->授权");
+        logger.info("Shiro->授权");
 
         Object username = SecurityUtils.getSubject().getPrincipal();
 
@@ -57,7 +61,7 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("Shiro->认证");
+        logger.info("Shiro->认证");
 
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         /*

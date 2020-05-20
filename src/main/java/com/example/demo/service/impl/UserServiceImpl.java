@@ -1,9 +1,12 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.domain.Post;
 import com.example.demo.domain.User;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.UserService;
 import com.github.pagehelper.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,8 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /**
      * 查询用户列表
@@ -38,6 +43,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Integer id) {
         List<User> users = userMapper.selectUserAndPost();
+        for (User user : users) {
+            logger.info("---" + user.getId() + "," + user.getUserName());
+            if (user.getBlog() != null) {
+                logger.info("\t-博客--" + user.getBlog().getId() + "," + user.getBlog().getBlogName());
+            }
+            for (Post post : user.getPosts()) {
+                logger.info("\t-文章--" + post.getId() + "," + post.getTitle());
+            }
+        }
 
         return userMapper.getUserById(id);
     }
